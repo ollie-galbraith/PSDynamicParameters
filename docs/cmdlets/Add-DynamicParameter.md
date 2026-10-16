@@ -3,7 +3,6 @@
 ### Description
 
 Adds a dynamic parameter to a PowerShell function or script. For use in advanced functions or scripts with dynamic parameters defined in the DynamicParameters() block.
-For more examples of how to use this function, see the DynamicParam{} block in the [Start-AnsibleJobTemplate](../../../LTF-Ansible/Public/Controller/Job/Start-AnsibleJobTemplate.ps1) cmdlet in the LTF-AnsiblePS module.
 
 ---
 
@@ -31,7 +30,7 @@ Add-DynamicParameter
 ---
 
 ### Source Code
-[Add-DynamicParameter.ps1](../../Public/Add-DynamicParameter.ps1)
+[Add-DynamicParameter.ps1](../Public/Add-DynamicParameter.ps1)
 
 ### Examples
 
@@ -40,7 +39,38 @@ Add-DynamicParameter
 # Add a dynamic parameter named "ExampleParam" of type string
 Add-DynamicParameter -DynamicParameterDictionary $DynamicParameters -ParameterName "ExampleParam" -ParameterType [string]
 ```
+#### Example 2
+```powershell
+# Full DynamicParam block
+DynamicParam
+    {
+        $DynamicParameterDictionary = [System.Management.Automation.RuntimeDefinedParameterDictionary]::new()
 
+        $NewDynamicParams = @{
+            DynamicParameterDictionary = $DynamicParameterDictionary
+        }
+
+        $HomeDirFiles = Get-ChildItem -Path "~" -File
+
+        $ParamList = @(
+            @{
+                ParameterName    = 'File'
+                ParameterType    = ([string])
+                DefaultValue     = $null
+                Mandatory        = $False
+                ValidateSet      = [array]$HomeDirFiles.Name
+                HelpMessage      = 'The file to process.'
+                Position         = 1
+            }
+        )
+
+        ForEach($Param in $ParamList)
+            {
+                Add-DynamicParameter @NewDynamicParams @Param
+            }
+        Return $DynamicParameterDictionary
+    }
+```
 
 ---
 
