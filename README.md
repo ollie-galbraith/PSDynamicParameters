@@ -2,7 +2,7 @@
 
 ##### Description
 
-Provides dynamic parameter functionality for PowerShell cmdlets.
+Provides Add-DynamicParameter, a helper for defining runtime parameters in advanced PowerShell functions and scripts. Configure parameter names and types, mandatory status, position, parameter sets, help messages, default values, pipeline binding, validation sets and ranges, argument completers, and custom attributes. The function creates RuntimeDefinedParameter objects and adds them to a RuntimeDefinedParameterDictionary for use in a DynamicParam block.
 *****
 
 ##### Available Cmdlets
